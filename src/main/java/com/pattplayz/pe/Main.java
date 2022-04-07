@@ -31,10 +31,16 @@ public class Main extends JavaPlugin {
         if(!settings.exists()) {
             saveResource("settings.yml", false);
         }
+
+        registerCommands();
     }
 
     @Override
     public void onDisable() {
         console.log(Level.INFO,"[PE] Shutting down services...");
+    }
+
+    private void registerCommands() {
+        getCommand("").setExecutor(new PECommand(this));
     }
 }
