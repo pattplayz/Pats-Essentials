@@ -1,0 +1,8 @@
+name: >-
+    Pat's Essentials
+main: src.com.pattplayz.pe.Main
+version: 0.0.1
+author: PattPlayz
+url:
+commands: []
+permissions: []
