@@ -1,0 +1,8 @@
+name: 'Pat\'s Essentials'
+version: '${project.version}'
+main: com.pattplayz.patessentials.PatEssentials
+api-version: 1.19
+prefix: PE
+author: Patt_Playz
+description: The essentials for any Minecraft server!
+website: https://www.pattplayz.com
