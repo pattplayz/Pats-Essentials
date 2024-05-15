@@ -1,6 +1,7 @@
 package com.pattplayz.patessentials;
 
 import com.pattplayz.patessentials.commands.Commands;
+import com.pattplayz.patessentials.utilities.MSGHelper;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,6 +14,7 @@ public final class PatEssentials extends JavaPlugin {
 
     public static final Logger console = Logger.getLogger("Pat's Essentials");
     File pluginDir = new File("plugins/PEssentials");
+    public MSGHelper helper;
 
     @Override
     public void onEnable() {
@@ -33,6 +35,8 @@ public final class PatEssentials extends JavaPlugin {
             saveResource("settings.yml", false);
         }
 
+        helper = new MSGHelper(this);
+
         registerCommands();
     }
 
@@ -42,6 +46,6 @@ public final class PatEssentials extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("").setExecutor(new Commands(this));
+        getCommand("pe").setExecutor(new Commands(this));
     }
 }
