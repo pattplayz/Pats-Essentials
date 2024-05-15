@@ -1,0 +1,1 @@
+# Pat's Essentials [![Java CI with Maven](https://github.com/pattplayz/Pats-Essentials/actions/workflows/maven.yml/badge.svg)](https://github.com/pattplayz/Pats-Essentials/actions/workflows/maven.yml)
