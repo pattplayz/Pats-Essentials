@@ -7,7 +7,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper {
     private static FileConfiguration _settings;
@@ -18,6 +20,7 @@ public class DBHelper {
     private String dbUser;
     private String dbPassword;
     private String dbTablePrefix;
+    private Connection conn = null;
 
     public DBHelper(PatEssentials instance) throws IOException, InvalidConfigurationException {
         plugin = instance;
@@ -26,7 +29,7 @@ public class DBHelper {
         _settings.load(f);
 
         if(_settings.getString("database").equals("sqlite")) {
-            dbURL = "jdbc:sqlite:" + f.getAbsolutePath();
+            dbURL = "jdbc:sqlite:" + db.getAbsolutePath();
         } else if(_settings.getString("database").equals("mysql")) {
             dbURL = _settings.getString("database.host").toLowerCase();
             dbPort = _settings.getInt("database.port");
@@ -37,18 +40,39 @@ public class DBHelper {
     }
 
     public void open() {
-
+        try {
+            conn = DriverManager.getConnection(dbURL);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void execute(String sql) throws SQLException {
+        if(conn == null) return;
 
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.executeUpdate();
+
+        ps.close();
     }
 
-    public String[] query(String sql) throws SQLException {
-        return null;
+    public List<String> query(String sql) throws SQLException {
+        if(conn == null) return null;
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        List<String> list = new ArrayList<>();
+        while(rs.next()) {
+            list.add(rs.getString(1));
+        }
+        rs.close();
+        ps.close();
+        return list;
     }
 
-    public void close() {
-
+    public void close() throws SQLException {
+        if(conn != null) {
+            conn.close();
+        }
     }
 }
