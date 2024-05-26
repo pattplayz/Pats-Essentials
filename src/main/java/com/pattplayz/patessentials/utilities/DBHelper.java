@@ -41,7 +41,10 @@ public class DBHelper {
 
     public void open() {
         try {
-            conn = DriverManager.getConnection(dbURL);
+            if(_settings.getString("database").equals("sqlite"))
+                conn = DriverManager.getConnection(dbURL);
+            else if(_settings.getString("database").equals("mysql"))
+                conn = DriverManager.getConnection(dbURL + ":" + dbPort, dbUser, dbPassword);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
